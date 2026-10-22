@@ -15,5 +15,33 @@ Initializinf a global dictionary of images. This will be called exactly once in 
 '''
 
 def loadImages():
-    piece = ["wP","wR","wN","wB","wQ","wK","wB","wN","wR"]
-    IMAGES[piece] = p.image.load("photo/" + piece + ".png")
+    pieces = ["wp","wR","wN","wB","wQ","wK","wB","wN","wR" ,"bp","bR","bN","bB","bQ","bK","bB","bN","bR"]
+    for piece in pieces:
+        IMAGES[piece] = p.transform.scale(p.image.load("photo/" + piece + ".png"),(SQ_SIZE,SQ_SIZE))
+
+'''
+this main driver handel user input and update
+'''
+
+def main():
+    p.init()
+    screen = p.display.set_mode((WIDTH,HEIGHT))
+    clock = p.time.Clock()
+    screen.file(p.Color("white"))
+    gs = ChessEngine.GameState()
+    loadImages()
+    running = True
+    while running:
+        for e in p.event.get():
+            if e.type == p.QUIT:
+                running = False
+        drawGameState(screen,gs)
+        clock.tick(MAX_FPS)
+        p.display.flip()
+
+def drawGameState(screen,gs):
+    drawBoard(screen) # draw square on the board
+    drawPices(screen) # draw pices
+
+if __name__ == "__main__":
+    main()
