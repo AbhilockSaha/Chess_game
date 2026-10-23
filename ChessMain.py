@@ -33,12 +33,23 @@ def main():
     loadImages()
 
     running = True
+    sqSelected = () # no square is selected , keep trac of the last click of the user (tuple :(row,col))
+    playerClicks = [] # keep track of user input
 
     while running:
         for e in p.event.get():
             if e.type == p.QUIT:
                 running = False
-
+            elif e.type == p.MOUSEBUTTONDOWN:
+                location = p.mouse.get_pos() # (x,y) location of mouse
+                col = location[0]//SQ_SIZE
+                row = location[1]//SQ_SIZE
+                if sqSelected == (row,col):
+                    sqSelected = ()
+                    playerClicks = []
+                else:
+                    sqSelected = (row,col)
+                    playerClicks.append(sqSelected)
         drawGameState(screen, gs)
         clock.tick(MAX_FPS)
         p.display.flip()
@@ -67,7 +78,6 @@ def drawPieces(screen, board):
     for r in range(DIMENSION):
         for c in range(DIMENSION):
             piece = board[r][c]
-
             if piece != "--":
                 screen.blit(IMAGES[piece],p.Rect(c * SQ_SIZE, r * SQ_SIZE, SQ_SIZE, SQ_SIZE))
 
