@@ -50,6 +50,10 @@ def main():
                 else:
                     sqSelected = (row,col)
                     playerClicks.append(sqSelected)
+                if len(playerClicks) == 2:
+                    
+
+
         drawGameState(screen, gs)
         clock.tick(MAX_FPS)
         p.display.flip()
